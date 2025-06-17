@@ -16,3 +16,21 @@ class Character():
     def fight(self, combat_item):
         print(self.name + "doesn't want to fight with you")
         return True
+
+
+class Enemy(Character):
+    def __init__(self, char_name, char_description):
+        super().__init__(char_name, char_description)
+        self.weakness = None
+    def fight(self, combat_item):
+        if combat_item == self.weakness:
+            print("You cheat death once again, defeating " + self.name + " with the " + combat_item)
+            return True
+        else:
+            print(self.name + " ends your life, disappointing...")
+    def set_weakness(self, weakness):
+        self.weakness = weakness
+    
+
+
+
