@@ -30,7 +30,12 @@ class Enemy(Character):
             print(self.name + " ends your life, disappointing...")
     def set_weakness(self, weakness):
         self.weakness = weakness
+    def steal(self):
+        print("You steal from " + self.name)
     
-
-
-
+class Friend(Character):
+    def __init__(self, char_name, char_description):
+        super().__init__(char_name, char_description)
+        self.feeling = None
+    def pat(self):
+        print(self.name + " pats you back!")
