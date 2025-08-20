@@ -1,12 +1,14 @@
 from location import Location
 from character import *
+from item import *
 
-barnyard = Location ("barnyard")
+boltcutters = Item ("boltcutters", "a red set of old rusty boltcutters.")
+
+barnyard = Location ("barnyard", [boltcutters])
 barnyard.set_description("A gloomy makeshift barnyard, the pale moon casting a glow over the splintering wooden walls.")
-barnyard.set_item("boltcutters")
 carpark = Location ("carpark")
 carpark.set_description("An empty carpark, with a dim streetlight flickering erratically.")
-cornfield = Location ("cornfield")
+cornfield = LockedLocation ("cornfield", boltcutters)
 cornfield.set_description("A tall dense cornfield, the crops gray and wiltering.")
 shed = Location ("shed")
 shed.set_description("A small and cramped metal shed, the rain pattering against the roof.")
@@ -38,10 +40,10 @@ while True:
     player.location.describe()
     print("")
     print("-----------------------------------------------")
-    print("List of available commands: move, pick up, fight")
+    print("List of available commands: move, pickup, fight")
     print("")
     playercommand = input("What command would you like to perform? ")
     if playercommand == "move":
         player.move()
-    elif playercommand == "pick up":
-        player.add_inventory()
+    elif playercommand == "pickup":
+        player.pickup()

@@ -20,12 +20,24 @@ class Player(Character):
 
         super().__init__(name, description)
 
-    def add_inventory(self):
-        self.inventory.append(Item)
+    def pickup(self):
+        itempickup = input("what would you like to pick up? ")
+        if itempickup in self.location.items:
+            self.inventory.append(self.location.items[itempickup])
+            print("you have added the " + itempickup + " to your backpack!")
+        else:
+            print("that item is not accessible!")
 
     def move(self):
         playermove = input("where would you like to move to? ")
         if playermove in self.location.linked_locations:
-            self.location = self.location.linked_locations[playermove]
+            new_location = self.location.linked_locations[playermove]
+            if new_location.is_locked():
+                if new_location.required_item in self.inventory:
+                    self.location = self.location.linked_locations[playermove]
+                else:
+                    print("This location is locked.")
+            else:
+                self.location = self.location.linked_locations[playermove]
         else:
-            print("That location is inaccessible")
+            print("That location is inaccessible!")

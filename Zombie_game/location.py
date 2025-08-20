@@ -1,7 +1,11 @@
 class Location():
-    def __init__(self, location_name):
+    def __init__(self, location_name, items=[]):
         self.name = location_name
         self.description = ""
+        self.items = {}
+        for item in items:
+            self.items[item.name] = item
+
     
     def set_description(self, location_description):
         self.description = location_description
@@ -21,8 +25,12 @@ class Location():
         for location in self.linked_locations:
             print(location)
 
-    def get_item(self):
-        return self.item
-        
-    def set_item(self, item_name):
-        self.item = item_name
+        print("")
+        print("This location contains:")
+        for item_name, item in self.items.items():
+            print(item.description)
+
+class LockedLocation(Location):
+    def __init__ (self, location_name,required_item, items=[]):
+        super().__init__(location_name, items)
+        self.required_item = required_item
