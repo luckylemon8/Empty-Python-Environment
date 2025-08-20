@@ -43,3 +43,15 @@ class Cave:
         else:
             print("You can't go that way!")
             return self
+    
+
+    def __init__(self, cave_name):
+        
+        self.item = None
+def get_item(self):
+    return self.item
+def set_item(self, item_name):
+    self.item = item_name
+
+    def describe(self):
+        print ("The [" + self.name + "] is here - " + self.description)
