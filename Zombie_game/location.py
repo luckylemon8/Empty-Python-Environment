@@ -3,10 +3,17 @@ class Location():
         self.name = location_name
         self.description = ""
         self.items = {}
+        self.zombies = None
         for item in items:
             self.items[item.name] = item
 
-    
+    def set_zombies(self, zombies):
+        self.zombies = zombies
+        
+
+    def is_locked(self, inventory):
+        return False
+
     def set_description(self, location_description):
         self.description = location_description
 
@@ -28,9 +35,12 @@ class Location():
         print("")
         print("This location contains:")
         for item_name, item in self.items.items():
-            print(item.description)
+            print(item.get_description())
 
 class LockedLocation(Location):
     def __init__ (self, location_name,required_item, items=[]):
         super().__init__(location_name, items)
         self.required_item = required_item
+        
+    def is_locked(self, inventory):
+        return self.required_item not in inventory

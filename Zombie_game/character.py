@@ -9,6 +9,12 @@ class Character():
     def set_start_location(self, location):
         self.location = location
 
+class Zombies():
+    def __init__(self, zombie_description, amount):
+        self.description = zombie_description
+        self.zombie_amount = amount
+    
+
 class Player(Character):
     def __init__(self):
         
@@ -24,6 +30,7 @@ class Player(Character):
         itempickup = input("what would you like to pick up? ")
         if itempickup in self.location.items:
             self.inventory.append(self.location.items[itempickup])
+            del self.location.items[itempickup]
             print("you have added the " + itempickup + " to your backpack!")
         else:
             print("that item is not accessible!")
@@ -32,12 +39,17 @@ class Player(Character):
         playermove = input("where would you like to move to? ")
         if playermove in self.location.linked_locations:
             new_location = self.location.linked_locations[playermove]
-            if new_location.is_locked():
-                if new_location.required_item in self.inventory:
-                    self.location = self.location.linked_locations[playermove]
-                else:
-                    print("This location is locked.")
+
+            if new_location.is_locked(self.inventory):
+                print("This location is locked.")
             else:
                 self.location = self.location.linked_locations[playermove]
         else:
             print("That location is inaccessible!")
+
+    def fight(self):
+        playerfight = ("What would you like to fight? ")
+        if playerfight == "zombie" and Zombies in self.location:
+            if Ammo >= Zombies.amount:
+                Zombies.amount = 0
+
