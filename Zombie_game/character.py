@@ -64,6 +64,9 @@ class Player(Character):
                 print("This location is locked.")
             else:
                 self.location = self.location.linked_locations[playermove]
+                if self.location.name == "forest":
+                    print("You hear a crackling sound from the radio!")
+                    print("Quick! to get to safety, the directions are... S... W... W... S... S...")
         else:
             print("That location is inaccessible!")
 
