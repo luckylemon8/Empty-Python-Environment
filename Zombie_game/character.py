@@ -20,7 +20,7 @@ class Character():
 class Zombies():
     def __init__(self, zombie_description, amount):
         self.description = zombie_description
-        self.zombie_amount = amount
+        self.amount = amount
 
 class Player(Character):
     def __init__(self):
@@ -44,6 +44,7 @@ class Player(Character):
                     existing_ammo.add_ammo(self.location.items[itempickup])
                 else:
                     self.inventory.append(self.location.items[itempickup])
+                # removes the item from the location when it is picked up
                 del self.location.items[itempickup]
                 print("you have added the " + itempickup + " to your backpack!")
             else:
@@ -55,6 +56,7 @@ class Player(Character):
 
     def move(self):
         playermove = input("where would you like to move to? ")
+        # checks if the the input from the player is in the current location's linked locations
         if playermove in self.location.linked_locations:
             new_location = self.location.linked_locations[playermove]
 
@@ -71,10 +73,19 @@ class Player(Character):
             item = self.get_item(playerfight)
             if item:
                 if isinstance(item, Weapon):
-                    print("")
-                    print("You have defeated them with your " + playerfight + "!")
-                    self.location.zombies = None
+                    existing_ammo = self.get_item("ammo")
+                    if existing_ammo and existing_ammo.rounds>= self.location.zombies.amount:
+                        existing_ammo.reduce_ammo(self.location.zombies.amount)
+                        print("")
+                        print("You have defeated them with your " + playerfight + "!")
+                        self.location.zombies = None
+                    else:
+                        print("You ran out of ammo!")
+                        print("The zombies ate your brains!")
+                        print("game over!")
+                        sys.exit()
                 else:
+                    # if the player tries to kill the zombie with an item that isn't a weapon, returns output and ends
                     print("You can't kill zombies with " + item.name)
                     print("The zombies ate your brains!")
                     print("game over!")

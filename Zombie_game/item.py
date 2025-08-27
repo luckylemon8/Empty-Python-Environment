@@ -23,3 +23,6 @@ class Ammo(Item):
     
     def add_ammo(self, ammo):
         self.rounds += ammo.rounds
+
+    def reduce_ammo(self, amount):
+        self.rounds -= amount

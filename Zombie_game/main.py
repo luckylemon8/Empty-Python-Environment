@@ -21,7 +21,6 @@ barnyard.set_zombies(zombie3)
 carpark = Location ("carpark")
 carpark.set_description("An empty carpark, with a dim streetlight flickering erratically.")
 
-
 car = LockedLocation ("car", carkey, [radio])
 car.set_description("A rusty car. you tug at the handle, and the door clicks open.")
 
@@ -39,7 +38,8 @@ house = Location ("house", [ammo])
 house.set_description("The living room of a classic american household, cracked family pictures scattered among the walls.")
 house.set_zombies(zombie5)
 
-gas_station = Location ("gas station", [handgun])
+ammo = Ammo (1)
+gas_station = Location ("gas station", [handgun, ammo])
 gas_station.set_description("A dark gas station. Various items are lined across the shelves. The register is unoccupied.")
 
 ammo = Ammo (1)
@@ -52,7 +52,7 @@ forest.set_description("A dense and thick forest.")
 
 cinema = Location ("cinema", [carkey])
 cinema.set_description("An empty cinema, with popcorn and drinks scattered across the floor.")
-clearing.set_zombies(zombies2)
+cinema.set_zombies(zombies2)
 
 carpark.set_linked_locations([barnyard, cornfield, gas_station, car])
 car.set_linked_locations([carpark])
@@ -63,10 +63,39 @@ house.set_linked_locations([gas_station])
 cornfield.set_linked_locations([carpark, clearing])
 clearing.set_linked_locations([cornfield, cinema, forest])
 cinema.set_linked_locations([clearing, forest])
-forest.set_linked_locations([clearing, cinema])
+
+zombies10 = Zombies("a massive hoard of more than 50 zombies!!", 50)
+
+clear_forest_1 = Forest("forest-south")
+clear_forest_2 = Forest("forest-west")
+clear_forest_3 = Forest("forest-west")
+clear_forest_4 = Forest("forest-south")
+
+zombie_forest_north = Forest("forest-north")
+zombie_forest_north.set_zombies(zombies10)
+zombie_forest_south = Forest("forest-south")
+zombie_forest_south.set_zombies(zombies10)
+zombie_forest_east = Forest("forest-east")
+zombie_forest_east.set_zombies(zombies10)
+zombie_forest_west = Forest("forest-west")
+zombie_forest_west.set_zombies(zombies10)
+
+zombie_forest_north.set_linked_locations([zombie_forest_north, zombie_forest_east, zombie_forest_west, zombie_forest_south])
+zombie_forest_south.set_linked_locations([zombie_forest_north, zombie_forest_east, zombie_forest_west, zombie_forest_south])
+zombie_forest_east.set_linked_locations([zombie_forest_north, zombie_forest_east, zombie_forest_west, zombie_forest_south])
+zombie_forest_west.set_linked_locations([zombie_forest_north, zombie_forest_east, zombie_forest_west, zombie_forest_south])
+
+end_game = Location("forest-south")
+end_game.set_description ("You have reached the safety camp. Well done.")
+
+forest.set_linked_locations([clearing, cinema, zombie_forest_west, zombie_forest_east, clear_forest_1])
+clear_forest_1.set_linked_locations([clear_forest_2, zombie_forest_east, zombie_forest_south])
+clear_forest_2.set_linked_locations([clear_forest_3, zombie_forest_north, zombie_forest_south])
+clear_forest_3.set_linked_locations([clear_forest_4, zombie_forest_north, zombie_forest_west])
+clear_forest_4.set_linked_locations([end_game, zombie_forest_east, zombie_forest_west])
 
 player = Player()
-player.set_start_location(carpark)
+player.set_start_location(forest)
 
 def clear_console():
     """
