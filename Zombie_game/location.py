@@ -1,3 +1,5 @@
+from character import * 
+
 class Location():
     def __init__(self, location_name, items=[]):
         self.name = location_name
@@ -6,10 +8,9 @@ class Location():
         self.zombies = None
         for item in items:
             self.items[item.name] = item
-
+        
     def set_zombies(self, zombies):
         self.zombies = zombies
-        
 
     def is_locked(self, inventory):
         return False
@@ -36,6 +37,12 @@ class Location():
         print("This location contains:")
         for item_name, item in self.items.items():
             print(item.get_description())
+        
+        if self.zombies:
+            print("")
+            print(self.zombies.description)
+            print("You can either fight with an item or flee!")
+            
 
 class LockedLocation(Location):
     def __init__ (self, location_name,required_item, items=[]):

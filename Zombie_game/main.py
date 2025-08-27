@@ -1,4 +1,4 @@
-from location import Location
+from location import *
 from character import *
 from item import *
 import os
@@ -7,46 +7,52 @@ import sys
 boltcutters = Item ("boltcutters", "a red set of old rusty boltcutters.")
 radio = Item ("radio", "a small silver radio with an long thin antenna poking out the top.")
 carkey = Item ("car key", "a car key with a small plush attached to the keyring.")
-handgun = Item ("hand gun", "a grey sleek handgun. Could be useful to defend yourself.")
+handgun = Weapon ("handgun", "a grey sleek handgun. Could be useful to defend yourself.")
 zombies1 = Zombies ("two dull zombies limp menacingly towards you.", 2)
 zombies2 = Zombies ("Two rotten zombies groan lowly and turn their heads to face you.", 2)
 zombie3 = Zombies ("an undead civillian with a tattered checkered red shirt.", 1)
 zombie4 = Zombies ("a zombie wearing a police vest stands in the clearing.", 1)
 zombie5 = Zombies ("a man stands in the doorway of the house. It is hard to tell if they are a zombie or not.", 1)
 
-barnyard = Location ("barnyard", [boltcutters], zombie3)
+barnyard = Location ("barnyard", [boltcutters])
 barnyard.set_description("A gloomy makeshift barnyard, the pale moon casting a glow over the splintering wooden walls.")
+barnyard.set_zombies(zombie3)
 
 carpark = Location ("carpark")
 carpark.set_description("An empty carpark, with a dim streetlight flickering erratically.")
+
 
 car = LockedLocation ("car", carkey, [radio])
 car.set_description("A rusty car. you tug at the handle, and the door clicks open.")
 
 ammo = Ammo (1)
-cornfield = LockedLocation ("cornfield", boltcutters, [ammo], zombies1)
+cornfield = LockedLocation ("cornfield", boltcutters, [ammo])
 cornfield.set_description("A tall dense cornfield, the crops gray and wiltering.")
+cornfield.set_zombies(zombies1)
 
 ammo = Ammo (2)
 shed = Location ("shed", [ammo])
 shed.set_description("A small and cramped metal shed, the rain pattering against the roof.")
 
 ammo = Ammo (2)
-house = Location ("house", [ammo], zombie5)
+house = Location ("house", [ammo])
 house.set_description("The living room of a classic american household, cracked family pictures scattered among the walls.")
+house.set_zombies(zombie5)
 
-gas_station = Location ("gas station")
+gas_station = Location ("gas station", [handgun])
 gas_station.set_description("A dark gas station. Various items are lined across the shelves. The register is unoccupied.")
 
 ammo = Ammo (1)
-clearing = Location ("clearing", [ammo], zombie4)
+clearing = Location ("clearing", [ammo])
 clearing.set_description("An open clearing filled with a thin fog, surrounded with towering trees.")
+clearing.set_zombies(zombie4)
 
 forest = LockedLocation ("forest", radio)
 forest.set_description("A dense and thick forest.")
 
-cinema = Location ("cinema", [carkey], zombies2)
+cinema = Location ("cinema", [carkey])
 cinema.set_description("An empty cinema, with popcorn and drinks scattered across the floor.")
+clearing.set_zombies(zombies2)
 
 carpark.set_linked_locations([barnyard, cornfield, gas_station, car])
 car.set_linked_locations([carpark])

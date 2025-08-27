@@ -20,5 +20,6 @@ class Ammo(Item):
 
     def get_description(self):
         return str(self.rounds) + " " + self._description
-
-
+    
+    def add_ammo(self, ammo):
+        self.rounds += ammo.rounds

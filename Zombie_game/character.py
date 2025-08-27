@@ -1,4 +1,6 @@
 from location import *
+from item import *
+import sys
 
 class Character():
     def __init__(self, character_name, character_description):
@@ -9,11 +11,16 @@ class Character():
     def set_start_location(self, location):
         self.location = location
 
+    def get_item(self, item_name):
+        for item in self.inventory:
+            if item.name == item_name:
+                return item
+        return None
+
 class Zombies():
     def __init__(self, zombie_description, amount):
         self.description = zombie_description
         self.zombie_amount = amount
-    
 
 class Player(Character):
     def __init__(self):
@@ -28,12 +35,23 @@ class Player(Character):
 
     def pickup(self):
         itempickup = input("what would you like to pick up? ")
-        if itempickup in self.location.items:
-            self.inventory.append(self.location.items[itempickup])
-            del self.location.items[itempickup]
-            print("you have added the " + itempickup + " to your backpack!")
+        if self.location.zombies == None:    
+            if itempickup in self.location.items:
+                existing_ammo = self.get_item("ammo")
+                # If we already have ammo and are picking up ammo, increase the rounds on the existing ammo
+                # Otherwise, just add the item to the inventory, including if it's the first ammo
+                if itempickup == "ammo" and existing_ammo:
+                    existing_ammo.add_ammo(self.location.items[itempickup])
+                else:
+                    self.inventory.append(self.location.items[itempickup])
+                del self.location.items[itempickup]
+                print("you have added the " + itempickup + " to your backpack!")
+            else:
+                print("that item is not accessible!")
         else:
-            print("that item is not accessible!")
+            print("The zombies ate your brains!")
+            print("game over!")
+            sys.exit()
 
     def move(self):
         playermove = input("where would you like to move to? ")
@@ -48,8 +66,23 @@ class Player(Character):
             print("That location is inaccessible!")
 
     def fight(self):
-        playerfight = ("What would you like to fight? ")
-        if playerfight == "zombie" and Zombies in self.location:
-            if Ammo >= Zombies.amount:
-                Zombies.amount = 0
-
+        if self.location.zombies:
+            playerfight = input("What would you like to fight with? ")
+            item = self.get_item(playerfight)
+            if item:
+                if isinstance(item, Weapon):
+                    print("")
+                    print("You have defeated them with your " + playerfight + "!")
+                    self.location.zombies = None
+                else:
+                    print("You can't kill zombies with " + item.name)
+                    print("The zombies ate your brains!")
+                    print("game over!")
+                    sys.exit()
+            else:
+                print("You don't have the " + playerfight)
+                print("The zombies ate your brains!")
+                print("game over!")
+                sys.exit()
+        else:
+            print("There is nothing here to fight with!")
