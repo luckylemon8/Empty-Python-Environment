@@ -39,7 +39,7 @@ house.set_description("The living room of a classic american household, cracked 
 house.set_zombies(zombie5)
 
 ammo = Ammo (1)
-gas_station = Location ("gas station", [handgun, ammo])
+gas_station = Location ("gas_station", [handgun, ammo])
 gas_station.set_description("A dark gas station. Various items are lined across the shelves. The register is unoccupied.")
 
 ammo = Ammo (1)
