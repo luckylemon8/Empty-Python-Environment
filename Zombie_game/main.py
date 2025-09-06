@@ -64,7 +64,7 @@ cornfield.set_linked_locations([carpark, clearing])
 clearing.set_linked_locations([cornfield, cinema, forest])
 cinema.set_linked_locations([clearing, forest])
 
-zombies10 = Zombies("a massive hoard of more than 50 zombies!!", 50)
+zombies10 = Zombies("a massive horde of more than 50 zombies!!", 50)
 
 clear_forest_1 = Forest("forest-south")
 clear_forest_2 = Forest("forest-west")
@@ -87,6 +87,7 @@ zombie_forest_west.set_linked_locations([zombie_forest_north, zombie_forest_east
 
 end_game = Location("forest-south")
 end_game.set_description ("You have reached the safety camp. Well done.")
+end_game
 
 forest.set_linked_locations([clearing, cinema, zombie_forest_west, zombie_forest_east, clear_forest_1])
 clear_forest_1.set_linked_locations([clear_forest_2, zombie_forest_east, zombie_forest_south])
@@ -95,7 +96,7 @@ clear_forest_3.set_linked_locations([clear_forest_4, zombie_forest_north, zombie
 clear_forest_4.set_linked_locations([end_game, zombie_forest_east, zombie_forest_west])
 
 player = Player()
-player.set_start_location(carpark)
+player.set_start_location(forest)
 
 def clear_console():
     """
