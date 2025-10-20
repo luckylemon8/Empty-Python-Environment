@@ -96,7 +96,7 @@ clear_forest_3.set_linked_locations([clear_forest_4, zombie_forest_north, zombie
 clear_forest_4.set_linked_locations([end_game, zombie_forest_east, zombie_forest_west])
 
 player = Player()
-player.set_start_location(forest)
+player.set_start_location(carpark)
 
 def clear_console():
     """
